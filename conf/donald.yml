@@ -1,0 +1,18 @@
+person:
+  name: donald
+  based_on: donald TNT
+  introductions:
+    - 'should I even exist?'
+    - 'need milk'
+  outros:
+    - 'this hot sauce is hotter than franks'
+    - '<deleted message>'
+  conversation_starters:
+    - 'should I work on my garden?'
+    - 'should I clean my beat lab?'
+    - 'should I message that girl?'
+  triggers:
+    - phrase: 'How are you doing?'
+      responses:
+        - 'what is that supposed to mean. how do you want me to feel?'
+

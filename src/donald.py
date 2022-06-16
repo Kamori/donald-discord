@@ -3,17 +3,49 @@ import os
 import discord
 
 from util.brain import Brain
+from util.person import Person
+import logging
+import signal
+import asyncio
+import time
+
+logging.basicConfig(level=logging.INFO)
 
 client = discord.Client()
+donald = Person('./conf/donald.yml')
+brain = Brain("./brain.brain")
+channel = lambda: client.get_channel(int(os.environ["DONALD_DEFAULT_CHANNEL"]))
+should_be_running = True
 
- # This will trigger a Brain().save() when this function closes
+def signal_handler(sig, frame):
+    global should_be_running
+    print('You pressed Ctrl+C!')
+    should_be_running = False
+
+signal.signal(signal.SIGINT, signal_handler)
+
+
+async def departure():
+    await channel().send(donald.random_outro())
+    await client.close()
+  
+async def arrival():
+    await client.start(os.environ["DONALD_BOT_KEY"])
+
 @client.event
 async def on_ready():
     print("We have logged in as {0.user}".format(client))
-    channel = client.get_channel(os.environ["DONALD_DEFAULT_CHANNEL"])
-    brain = Brain("brain.brain")
-    brain["general"] = str(dir(channel))
-    # await channel.send('Should I even exist?')
+    print(channel())
+    brain["general"] = str(channel().id)
+    # await channel.send(donald.random_greeting())
+
+    while should_be_running:
+        time.sleep(2)
+
+    await departure()
+    await client.close()
+    
+
 
 
 @client.event
@@ -24,5 +56,8 @@ async def on_message(message):
     if message.content.startswith("$hello"):
         await message.channel.send("Hello!")
 
-
-client.run(os.environ["DONALD_BOT_KEY"])
+loop = asyncio.get_event_loop()
+try:
+  loop.run_until_complete(client.start(os.environ["DONALD_BOT_KEY"]))
+finally:
+    loop.close()

@@ -1,6 +1,6 @@
 import json
 from typing import Any
-
+import atexit
 
 class Brain:
     def __init__(self, brain_file=None):
@@ -10,8 +10,8 @@ class Brain:
         if brain_file:
             self.load(brain_file)
 
-    def __del__(self):
-        self.save(self.brain_file)
+        atexit.register(self.save)
+
 
     def save(self, brain_file=None):
         if not brain_file:
