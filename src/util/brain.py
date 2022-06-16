@@ -22,8 +22,14 @@ class Brain:
             json.dump(self.__raw, fp)
 
     def load(self, brain_file):
-        with open(brain_file, "r") as fp:
-            self.__raw = json.load(fp)
+        try:
+            with open(brain_file, "r") as fp:
+                self.__raw = json.load(fp)
+        except FileNotFoundError as _:
+            with open(brain_file, "w+") as fp:
+                print(f"Creating brainfile at {brain_file}")
+                fp.write("{}")
+                self.__raw = json.loads("{}")
 
     @property
     def raw(self):
