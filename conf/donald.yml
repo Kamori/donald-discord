@@ -11,8 +11,20 @@ person:
     - 'should I work on my garden?'
     - 'should I clean my beat lab?'
     - 'should I message that girl?'
-  triggers:
-    - phrase: 'How are you doing?'
-      responses:
-        - 'what is that supposed to mean. how do you want me to feel?'
+    - 'fuck you'
+    - 'The guys in the other discord are better than you.'
+    - 'should I buy a new guitar?'
+    - 'Social is a right'
+  # emotional_triggers:
+  #   - phrase: 'How are you doing?'
+  #     responses:
+  #       - 'what is that supposed to mean. how do you want me to feel?'
+  #   - 
+
+  # overrides:
+  #   - trigger: user:static
+  #     responses:
+  #     - 'fuck you justin'
+
+  
 

@@ -8,6 +8,7 @@ import logging
 import signal
 import asyncio
 import time
+import logging
 
 logging.basicConfig(level=logging.INFO)
 
@@ -37,10 +38,11 @@ async def on_ready():
     print("We have logged in as {0.user}".format(client))
     print(channel())
     brain["general"] = str(channel().id)
-    # await channel.send(donald.random_greeting())
+    await channel().send(donald.random_greeting())
 
     while should_be_running:
-        time.sleep(2)
+        # time.sleep(2)
+        await asyncio.sleep(2)
 
     await departure()
     await client.close()
@@ -53,8 +55,12 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith("$hello"):
-        await message.channel.send("Hello!")
+    if client.user.mentioned_in(message):
+        await message.channel.send(donald.random_tagged_response())
+
+    if 'reload' in message.content:
+        donald.reload()
+
 
 loop = asyncio.get_event_loop()
 try:

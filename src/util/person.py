@@ -39,6 +39,9 @@ class Person:
                 fp.write(placeholder_str)
                 self.__raw = yaml.load(placeholder_str, Loader=Loader)
 
+    def reload(self):
+        self.load(self.personality_file)
+
     @property
     def raw(self):
         return self.__raw
@@ -52,6 +55,8 @@ class Person:
           case "outros":
             conversational_choices.extend(self.raw['person']['outros'])
           case "conversation_starters":
+            conversational_choices.extend(self.raw['person']['conversation_starters'])
+          case "tagged":
             conversational_choices.extend(self.raw['person']['conversation_starters'])
           case "all":
             conversational_choices.extend(self.raw['person']['introductions'])
@@ -74,6 +79,9 @@ class Person:
 
     def random_starter(self):
         return self._get_random_comment("conversation_starters")
+
+    def random_tagged_response(self):
+        return self._get_random_comment("tagged")
 
 if __name__ == '__main__':
     person = Person('./conf/donald.yml')
