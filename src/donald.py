@@ -11,8 +11,10 @@ import time
 import logging
 
 logging.basicConfig(level=logging.INFO)
+intents = discord.Intents.default()
+intents.message_content = True
 
-client = discord.Client()
+client = discord.Client(intents=intents)
 donald = Person('./conf/donald.yml')
 brain = Brain("./brain.brain")
 channel = lambda: client.get_channel(int(os.environ["DONALD_DEFAULT_CHANNEL"]))

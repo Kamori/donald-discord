@@ -4,6 +4,7 @@ person:
   introductions:
     - 'should I even exist?'
     - 'need milk'
+    - '$days_til_birthday days until my birthday'
   outros:
     - 'this hot sauce is hotter than franks'
     - '<deleted message>'

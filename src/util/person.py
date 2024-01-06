@@ -6,6 +6,7 @@ except ImportError:
 from typing import Any
 import atexit
 import random
+import datetime
 
 
 class Person:
@@ -46,6 +47,20 @@ class Person:
     def raw(self):
         return self.__raw
 
+    def parse_string_for_variables(self, my_string):
+        result = my_string
+        if '$days_til_birthday' in my_string:
+            this_year = datetime.date.today().year
+            this_date = datetime.date.today()
+            future = datetime.date(this_year, 8, 25)
+            days_til_bday = future - this_date
+            if int(days_til_bday.days) < 0:
+                future = datetime.date(this_year+1, 8, 25)
+                days_til_bday = future - this_date
+            result = my_string.replace("$days_til_birthday", str(days_til_bday.days))
+        
+        return result
+        
     # Not triggers
     def _get_random_comment(self, comment_type):
         conversational_choices = []
@@ -69,6 +84,7 @@ class Person:
         except IndexError as _:
             comment = "..."
 
+        comment = self.parse_string_for_variables(comment)
         return comment
 
     def random_greeting(self):
